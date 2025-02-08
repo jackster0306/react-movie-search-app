@@ -7,18 +7,17 @@ interface MovieButtonProps {
 
 export default function MovieButton({ movie }: MovieButtonProps) {
     return (
-        <button className="p-4 bg-white shadow-md rounded-lg text-gray-700 w-full hover:shadow-xl transition-shadow">
-        <Image
-          src={movie.poster}
-          alt={movie.title}
-          className="w-full h-auto rounded-md mb-4"
-          width={500} // Adjust width as needed
-          height={750} // Adjust height as needed
-        />
-        
-        
+        <button className="p-4 bg-white shadow-md rounded-lg text-gray-700 w-full hover:shadow-xl transition-shadow flex flex-col items-center">
+          <div className="relative w-48 h-60 md:w-48 md:h-72 lg:w-64 lg:h-96">
+            <Image
+              src={movie.poster}
+              alt={movie.title}
+              className="object-cover rounded-md mb-4"
+              fill={true}
+            />
+          </div>
         {/* Movie Title */}
-        <h2 className="text-lg font-semibold">{movie.title}</h2>
+        <h2 className="text-lg font-semibold mt-4">{movie.title}</h2>
         
         {/* Movie Year */}
         <p className="text-sm text-gray-500">{movie.year}</p>
