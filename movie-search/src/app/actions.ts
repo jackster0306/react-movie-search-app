@@ -1,6 +1,6 @@
 "use server"
 
-export async function getMovie(formData: FormData) {
+export async function getMovies(formData: FormData) {
 
     /*
     const movieName = formData.get("Movie") as string;
@@ -88,4 +88,14 @@ export async function getMovie(formData: FormData) {
     ]
 
     return search;
+  }
+
+
+  export async function getMovieById(id: string) {
+    const apiKey = process.env.OMDB_API_KEY;
+    const url = `http://www.omdbapi.com/?apikey=${apiKey}&i=${id}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
+    return data;
   }

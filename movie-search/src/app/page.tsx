@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { getMovie } from "./actions";
+import { getMovies } from "./actions";
 import MovieButton from "./components/movie-button";
 import { Movie } from "./models/movie";
 
@@ -12,7 +12,7 @@ export default function Home() {
   //const movies: Movie[] = [];
 
   async function updateMovies(formData: FormData) {
-    const data = await getMovie(formData);
+    const data = await getMovies(formData);
     setMovies(data);
   }
 
