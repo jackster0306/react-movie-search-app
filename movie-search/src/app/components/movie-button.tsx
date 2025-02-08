@@ -1,4 +1,4 @@
-import { Movie } from "../models/Movie";
+import { Movie } from "../models/movie";
 import Image from 'next/image';
 
 interface MovieButtonProps {

@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { getMovie } from "./actions";
-import { Movie } from "./models/Movie";
 import MovieButton from "./components/movie-button";
+import { Movie } from "./models/movie";
 
 
 export default function Home() {
