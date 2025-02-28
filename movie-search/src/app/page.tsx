@@ -16,6 +16,8 @@ export default function Home() {
   useEffect(() => {
     if (query) {
       getMovies(query).then(setMovies);
+    } else{
+      setMovies([]);
     }
   }, [query]);
 
