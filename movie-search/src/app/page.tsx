@@ -14,7 +14,6 @@ export default function Home() {
   const query = searchParams.get("q") as string;
 
   useEffect(() => {
-    console.log("Query changed:", query);
     if (query) {
       getMovies(query).then(setMovies);
     }

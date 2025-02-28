@@ -24,6 +24,7 @@ export default function MovieButton({ movie }: MovieButtonProps) {
                 alt={movie.title}
                 className="object-cover rounded-md mb-4"
                 fill={true}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
           {/* Movie Title */}
