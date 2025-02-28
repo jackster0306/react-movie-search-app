@@ -1,18 +1,31 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getMovies } from "./actions";
 import MovieButton from "./components/movie-button";
 import { Movie } from "./models/movie";
+import { useRouter, useSearchParams } from "next/navigation";
 
 
 export default function Home() {
   const [movies, setMovies] = useState<Movie[]>([]);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const query = searchParams.get("q") as string;
 
-  //const movies: Movie[] = [];
+  useEffect(() => {
+    console.log("Query changed:", query);
+    if (query) {
+      getMovies(query).then(setMovies);
+    }
+  }, [query]);
 
   async function updateMovies(formData: FormData) {
-    const data = await getMovies(formData);
+
+    const searchQuery = formData.get("Movie") as string;
+    router.push(`/?q=${encodeURIComponent(searchQuery)}`);
+
+    const data = await getMovies(searchQuery);
     setMovies(data);
   }
 
@@ -28,6 +41,7 @@ export default function Home() {
             className="p-2 border border-gray-800 text-black rounded-md"
             placeholder="Enter movie name"
             name="Movie" required
+            defaultValue={query}
           />
           <button className="p-2 bg-blue-500 text-white rounded-sm" 
           type="submit">
@@ -40,7 +54,7 @@ export default function Home() {
                 <MovieButton key={movie.imdbID} movie={movie} />
             ))
             ) : (
-              <p className="text-center col-span-4">No movies found</p>
+              <p className="text-center col-span-4"></p>
             )}
         </div>
       </div>

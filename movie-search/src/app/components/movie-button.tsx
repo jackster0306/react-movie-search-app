@@ -1,14 +1,20 @@
+"use client";
+
 import { Movie } from "../models/movie";
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSearchParams } from "next/navigation";
 
 interface MovieButtonProps {
   movie: Movie;
 }
 
 export default function MovieButton({ movie }: MovieButtonProps) {
+    const params = useSearchParams();
+    const query = params.get("q") || "";
+
     return (
-      <Link href={`/movies/${movie.imdbID}`} 
+      <Link href={`/movies/${movie.imdbID}?q=${encodeURIComponent(query)}`} 
       className="p-4 bg-white shadow-md rounded-lg text-gray-700 w-full hover:shadow-xl transition-shadow">
         <button 
         className="flex flex-col items-center">
