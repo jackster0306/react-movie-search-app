@@ -22,7 +22,6 @@ export default function Home() {
   }, [query]);
 
   async function updateMovies(formData: FormData) {
-
     const searchQuery = formData.get("Movie") as string;
     router.push(`/?q=${encodeURIComponent(searchQuery)}`);
 
@@ -36,27 +35,27 @@ export default function Home() {
     <div className="min-h-screen text-white p-6">
       <h1 className="text-center py-20 text-4xl mb-4">Movie Search</h1>
       <div className="flex justify-center items-center gap-4 flex-col">
-        <form action={updateMovies} className="mb-4">
+        <form action={updateMovies} className="mb-4 flex items-center gap-4">
           <input
-            type="text"
-            className="p-2 border border-gray-800 text-black rounded-md"
-            placeholder="Enter movie name"
-            name="Movie" required
-            defaultValue={query}
+        type="text"
+        className="p-2 border border-gray-800 text-black rounded-md"
+        placeholder="Enter movie name"
+        name="Movie" required
+        defaultValue={query}
           />
-          <button className="p-2 bg-blue-500 text-white rounded-sm" 
+          <button className="p-2 bg-blue-500 text-white rounded-md" 
           type="submit">
-            Search
+        Search
           </button>
         </form>
         <div className="grid grid-cols-4 gap-4 py-10">
-            {movies.length > 0 ? (
-            movies.map((movie: Movie) => (
-                <MovieButton key={movie.imdbID} movie={movie} />
-            ))
-            ) : (
-              <p className="text-center col-span-4"></p>
-            )}
+        {movies.length > 0 ? (
+        movies.map((movie: Movie) => (
+            <MovieButton key={movie.imdbID} movie={movie} />
+        ))
+        ) : (
+          <p className="text-center col-span-4"></p>
+        )}
         </div>
       </div>
      

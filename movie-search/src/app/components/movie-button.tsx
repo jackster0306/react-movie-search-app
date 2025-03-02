@@ -20,21 +20,21 @@ export default function MovieButton({ movie }: MovieButtonProps) {
         className="flex flex-col items-center">
             <div className="relative w-48 h-60 md:w-48 md:h-72 lg:w-64 lg:h-96">
               <Image
-                src={movie.poster}
-                alt={movie.title}
+                src={movie.Poster}
+                alt={movie.Title}
                 className="object-cover rounded-md mb-4"
                 fill={true}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
           {/* Movie Title */}
-          <h2 className="text-lg font-semibold mt-4">{movie.title}</h2>
+          <h2 className="text-lg font-semibold mt-4">{movie.Title}</h2>
           
           {/* Movie Year */}
-          <p className="text-sm text-gray-500">{movie.year}</p>
+          <p className="text-sm text-gray-500">{movie.Year}</p>
           
           {/* Movie Type */}
-          <p className="text-sm text-gray-500">{movie.type}</p>
+          <p className="text-sm text-gray-500">{movie.Type}</p>
         </button>
       </Link>
         
