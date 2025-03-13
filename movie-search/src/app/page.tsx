@@ -12,10 +12,16 @@ export default function Home() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get("q") as string;
+  const [page, setPage] = useState(1);
+  const [returnedMax, setReturnedMax] = useState(false);
 
   useEffect(() => {
     if (query) {
-      getMovies(query).then(setMovies);
+      getMovies(query, 1).then((data) => {
+        setMovies(data);
+        setPage(1);
+        setReturnedMax(data.length === 10);
+      });
     } else{
       setMovies([]);
     }
@@ -25,8 +31,24 @@ export default function Home() {
     const searchQuery = formData.get("Movie") as string;
     router.push(`/?q=${encodeURIComponent(searchQuery)}`);
 
+    setPage(1);
     const data = await getMovies(searchQuery);
     setMovies(data);
+    setReturnedMax(data.length === 10);
+  }
+
+  async function loadMore() {
+    const nextPage = page + 1;
+    const moreMovies = await getMovies(query, nextPage);
+
+    if(moreMovies.length > 0){
+      setMovies((prevMovies) => [...prevMovies, ...moreMovies]);
+      setPage(nextPage);
+    }
+
+    if(moreMovies.length < 10){
+      setReturnedMax(false);
+    }
   }
 
   
@@ -57,6 +79,15 @@ export default function Home() {
           <p className="text-center col-span-4"></p>
         )}
         </div>
+
+        {returnedMax && (
+          <button
+            onClick={loadMore}
+            className="p-2 bg-green-500 text-white rounded-md mt-4"
+          >
+            Show More Results
+          </button>
+        )}
       </div>
      
     </div>

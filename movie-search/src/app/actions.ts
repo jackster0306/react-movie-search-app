@@ -1,8 +1,8 @@
 "use server"
 
-export async function getMovies(movieName: string) {
+export async function getMovies(movieName: string, page: number = 1) {
     const apiKey = process.env.OMDB_API_KEY;
-    const url = `http://www.omdbapi.com/?apikey=${apiKey}&s=${movieName}`;
+    const url = `http://www.omdbapi.com/?apikey=${apiKey}&s=${movieName}&page=${page}`;
     const response = await fetch(url);
     const data = await response.json();
     const search = data.Search;
