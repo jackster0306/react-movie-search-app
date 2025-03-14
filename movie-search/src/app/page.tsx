@@ -8,24 +8,46 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 
 export default function Home() {
-  const [movies, setMovies] = useState<Movie[]>([]);
   const router = useRouter();
   const searchParams = useSearchParams();
   const query = searchParams.get("q") as string;
+
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [page, setPage] = useState(1);
   const [returnedMax, setReturnedMax] = useState(false);
 
   useEffect(() => {
-    if (query) {
-      getMovies(query, 1).then((data) => {
-        setMovies(data);
-        setPage(1);
-        setReturnedMax(data.length === 10);
-      });
-    } else{
-      setMovies([]);
-    }
-  }, [query]);
+    console.log("Session Storage useEffect")
+    const savedMovies = sessionStorage.getItem("movies");
+    const savedPage = sessionStorage.getItem("page");
+
+    if (savedMovies){
+      console.log("Movies: "+JSON.parse(savedMovies).length);
+      setMovies(JSON.parse(savedMovies));
+      setReturnedMax(JSON.parse(savedMovies).length >= 10);
+    } 
+    if (savedPage){
+      console.log("Page: "+JSON.parse(savedPage));
+      setPage(JSON.parse(savedPage));
+    } 
+  }, []);
+
+  // useEffect(() => {
+  //   console.log("Query useEffect")
+  //   if (query) {
+  //     getMovies(query, 1).then((data) => {
+  //       setMovies(data);
+  //       setPage(1);
+  //       setReturnedMax(data.length === 10);
+
+  //       sessionStorage.setItem("movies", JSON.stringify(data));
+  //       sessionStorage.setItem("page", JSON.stringify(1));
+  //     });
+  //   } else{
+  //     console.log("No query");
+  //     setMovies([]);
+  //   }
+  // }, [query]);
 
   async function updateMovies(formData: FormData) {
     const searchQuery = formData.get("Movie") as string;
@@ -35,6 +57,9 @@ export default function Home() {
     const data = await getMovies(searchQuery);
     setMovies(data);
     setReturnedMax(data.length === 10);
+
+    sessionStorage.setItem("movies", JSON.stringify(data));
+    sessionStorage.setItem("page", JSON.stringify(1)); 
   }
 
   async function loadMore() {
@@ -42,9 +67,21 @@ export default function Home() {
     const moreMovies = await getMovies(query, nextPage);
 
     if(moreMovies.length > 0){
-      setMovies((prevMovies) => [...prevMovies, ...moreMovies]);
+      setMovies((prevMovies) => {
+        const updatedMovies = [...prevMovies, ...moreMovies];
+
+        console.log("UPDATED MOVIES: \n"+updatedMovies.length);
+        
+
+        sessionStorage.setItem("movies", JSON.stringify(updatedMovies));
+        sessionStorage.setItem("page", JSON.stringify(nextPage));
+
+        return updatedMovies;
+      });
       setPage(nextPage);
     }
+
+    console.log("MOVIES: \n"+movies.length);
 
     if(moreMovies.length < 10){
       setReturnedMax(false);
